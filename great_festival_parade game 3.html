@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Great Festival Parade</title>
+<style>
+:root{--navy:#18234b;--purple:#6336a5;--gold:#ffd166;--orange:#ff914d;--blue:#55c7f2;--cream:#fff9e9}
+*{box-sizing:border-box}body{margin:0;font-family:"Trebuchet MS","Arial Rounded MT Bold",system-ui,sans-serif;color:var(--navy);background:radial-gradient(circle at 12% 18%,#ffd16644 0 3px,transparent 4px),radial-gradient(circle at 88% 26%,#55c7f244 0 4px,transparent 5px),radial-gradient(circle at 30% 85%,#ff719844 0 3px,transparent 4px),linear-gradient(145deg,#101c52,#512d83 55%,#12628a);background-size:70px 70px,90px 90px,110px 110px,auto;min-height:100vh;display:grid;place-items:center;padding:16px}
+button{font:inherit;font-weight:800;cursor:pointer;border:0;border-radius:16px;padding:14px 20px;color:#19234b;background:var(--gold);box-shadow:0 5px 0 #c18c28;transition:transform .12s}button:hover{transform:translateY(-2px)}button:focus-visible{outline:4px solid white;outline-offset:3px}
+.app{position:relative;width:min(100%,980px);background:var(--cream);border:5px solid #f8c95b;border-radius:28px;overflow:hidden;box-shadow:0 18px 55px #10143899}.app:before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:23px;background:radial-gradient(circle at 5% 14%,#ffd16655 0 5px,transparent 6px),radial-gradient(circle at 95% 18%,#ff719855 0 6px,transparent 7px),radial-gradient(circle at 4% 88%,#55c7f255 0 5px,transparent 6px);background-size:125px 130px;z-index:0}header,main{position:relative;z-index:1}
+header{padding:16px 22px;background:linear-gradient(100deg,#20295f,#6336a5);color:white;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.brand{font-weight:1000;letter-spacing:.08em;text-shadow:0 2px 0 #ff914d;font-size:1.02rem}.stats{display:flex;gap:10px}.stat{background:#fff;color:#202856;padding:8px 12px;border-radius:12px;font-weight:900}.sound{background:#aee9ff;box-shadow:0 4px 0 #55a4c7}.music{background:#ffb7d0;box-shadow:0 4px 0 #c56c96}
+main{padding:clamp(16px,4vw,32px);min-height:480px}.screen{display:none}.screen.active{display:block}.welcome{text-align:center;padding:26px 8px}.welcome h1{font-size:clamp(2rem,6vw,3.5rem);margin:12px 0;color:#58349a}.welcome p{font-size:1.2rem;max-width:650px;margin:14px auto 24px}.festival-art{width:min(100%,600px);margin:12px auto 20px;display:block}
+h2{color:#59369b;margin:0 0 8px;font-size:clamp(1.5rem,4vw,2rem)}.instruction{font-size:1.1rem;margin:8px 0 20px}.question{background:white;border:3px solid #e8d9ff;border-radius:20px;padding:18px;text-align:center;margin:16px 0}.target{font-size:clamp(1.5rem,5vw,2.2rem);font-weight:900;color:#58349a}.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.choice{background:#e6f7ff;box-shadow:0 5px 0 #8bcce5;min-height:78px;font-size:1.05rem}.choice svg{width:100px;height:80px;display:block;margin:0 auto}.choice span{display:none}.feedback{min-height:32px;font-weight:900;text-align:center;font-size:1.1rem;margin:12px 0}.feedback.good{color:#14814e}.feedback.bad{color:#b63b45}.next{display:block;margin:14px auto}.progress{height:12px;background:#e6def5;border-radius:99px;overflow:hidden;margin:10px 0 18px}.progress span{display:block;height:100%;background:linear-gradient(90deg,#55c7f2,#ffd166);width:0;transition:width .3s}
+.stage{background:linear-gradient(#222b6d 0 65%,#a95d9b 65%);border-radius:20px;padding:12px;overflow:hidden}.stage svg{width:100%;display:block}.grammar-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.grammar-options button{background:#eee5ff;box-shadow:0 5px 0 #b9a0e0;min-height:70px;font-size:1.05rem}
+.final{text-align:center}.final h2{font-size:2.2rem}.final .score{font-size:1.5rem;font-weight:900;color:#a05b00}.small{font-size:.9rem;color:#5c6283}
+@media(max-width:520px){.choices,.grammar-options{grid-template-columns:1fr}.stats{width:100%;justify-content:space-between}.app{border-width:3px}main{min-height:420px}.choice{min-height:65px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand">THE GREAT FESTIVAL PARADE</div><div class="stats"><div class="stat" id="stars">Stars: 0</div><div class="stat" id="errors">Mistakes: 0</div><button class="sound" id="sound" aria-pressed="true">SFX: ON</button><button class="music" id="music" aria-pressed="true">Music: ON</button></div></header>
+<main>
+<section class="screen active" id="welcome">
+<div class="welcome">
+<svg class="festival-art" viewBox="0 0 600 230" role="img" aria-label="Colorful festival stage with flags, balloons, lights and drums">
+<defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#4c62c8"/><stop offset="1" stop-color="#9b58ba"/></linearGradient></defs>
+<rect x="5" y="5" width="590" height="220" rx="25" fill="url(#sky)"/>
+<path d="M30 42H570" stroke="#ffd166" stroke-width="5" stroke-linecap="round"/>
+<g fill="#ff914d"><path d="M70 42v54l28-15 28 15V42z"/><path d="M474 42v54l28-15 28 15V42z"/></g><g fill="#55c7f2"><path d="M150 42v54l28-15 28 15V42z"/><path d="M394 42v54l28-15 28 15V42z"/></g>
+<g stroke="#fff" stroke-width="3"><path d="M90 130V80m0 0c-40-22-35 33 0 20 35-13 40-42 0-20" fill="#ff5b8a"/><path d="M510 130V80m0 0c-40-22-35 33 0 20 35-13 40-42 0-20" fill="#ffd166"/></g>
+<g fill="#ffd166"><circle cx="250" cy="50" r="6"/><circle cx="350" cy="50" r="6"/><circle cx="300" cy="30" r="6"/></g>
+<rect x="115" y="145" width="370" height="58" rx="12" fill="#242c66"/><text x="300" y="181" font-size="24" font-weight="900" text-anchor="middle" fill="#fff">LET'S CELEBRATE!</text>
+<g transform="translate(45 155)"><ellipse cx="25" cy="36" rx="25" ry="10" fill="#e34e6e"/><rect x="4" y="5" width="42" height="30" rx="8" fill="#ff914d"/><path d="M4 15h42M4 25h42" stroke="#fff" stroke-width="4"/></g>
+<g transform="translate(505 155)"><ellipse cx="25" cy="36" rx="25" ry="10" fill="#e34e6e"/><rect x="4" y="5" width="42" height="30" rx="8" fill="#55c7f2"/><path d="M4 15h42M4 25h42" stroke="#fff" stroke-width="4"/></g>
+</svg>
+<h1>Let's celebrate!</h1><p>Help organize <strong>The Great Festival Parade</strong>. Learn festival words, build the parade, and celebrate your success!</p>
+<button id="start">Start Festival</button><p class="small">A fun English adventure for festival helpers.</p>
+</div></section>
+<section class="screen" id="vocab"><h2>Phase 1 · Festival words</h2><p class="instruction">Choose the picture that matches the English word.</p><div class="progress"><span id="vprog"></span></div><div class="question"><div class="target" id="word"></div></div><div class="choices" id="choices"></div><div class="feedback" id="vfeedback" aria-live="polite"></div><button class="next" id="vnext" hidden>Next word</button></section>
+<section class="screen" id="grammar"><h2>Phase 2 · Yesterday's festival</h2><p class="instruction">Look at the picture. Choose the sentence that tells what was there yesterday.</p><div class="progress"><span id="gprog"></span></div><div class="stage" id="gscene"></div><div class="question"><div class="target" id="gprompt"></div></div><div class="grammar-options" id="gchoices"></div><div class="feedback" id="gfeedback" aria-live="polite"></div><button class="next" id="gnext" hidden>Next sentence</button></section>
+<section class="screen final" id="final"><h2>Festival complete!</h2><p class="score" id="finalscore"></p><p>You did a fantastic job, festival helper!</p><div class="stage" id="parade"></div><p>The Great Festival Parade is ready to shine!</p><button id="again">Play again</button></section>
+</main></div>
+<script>
+const $=id=>document.getElementById(id);
+let stars=0,errors=0,soundOn=true,musicOn=true,step=0,gstep=0,unlocked=[],audioCtx=null,musicTimer=null,vQueue=[],gQueue=[],wrongV=[],wrongG=[];
+const vocab=[
+['costumes','👗'],['flags','🚩'],['fireworks','✦'],['parade','♟'],['balloons','●'],['candles','♨'],['band','♫'],['drums','◉'],['lights','✧'],['masks','◒']
+];
+// SVG illustrations are custom vector art; symbols here are only internal keys, never rendered as emoji graphics.
+const art={
+costumes:`<g><path d="M35 12l15 8 15-8 15 18-12 8-5-7v35H37V31l-5 7-12-8z" fill="#ff7198" stroke="#fff" stroke-width="3"/><path d="M45 20l5 8 5-8" fill="#ffd166"/></g>`,
+flags:`<g stroke="#fff" stroke-width="4"><path d="M28 8v62"/><path d="M30 12h48l-14 15 14 15H30z" fill="#ff914d"/><path d="M30 12h48v15H30z" fill="#55c7f2"/></g>`,
+fireworks:`<g stroke-width="5" stroke-linecap="round"><path d="M50 38V8M50 38L22 20M50 38L78 20M50 38L22 58M50 38L78 58M50 38H10M50 38H90" stroke="#ffd166"/><circle cx="50" cy="38" r="8" fill="#ff7198"/></g>`,
+parade:`<g><path d="M15 60h70" stroke="#ffd166" stroke-width="5"/><circle cx="35" cy="20" r="11" fill="#ffcf9f"/><path d="M20 34h30l-5 27H25z" fill="#55c7f2"/><circle cx="70" cy="20" r="11" fill="#ffcf9f"/><path d="M55 34h30l-5 27H60z" fill="#ff7198"/></g>`,
+balloons:`<g><ellipse cx="35" cy="25" rx="20" ry="25" fill="#ff7198"/><ellipse cx="70" cy="23" rx="18" ry="23" fill="#55c7f2"/><path d="M35 50l15 25M70 46L55 75" stroke="#fff" stroke-width="2"/><path d="M32 49l3 5 4-5M67 45l3 5 4-5" fill="#ffd166"/></g>`,
+candles:`<g><rect x="25" y="30" width="18" height="40" rx="4" fill="#55c7f2"/><rect x="58" y="30" width="18" height="40" rx="4" fill="#ff7198"/><path d="M34 28c-12-12 5-20 0-27 16 12 5 20 0 27M67 28c-12-12 5-20 0-27 16 12 5 20 0 27" fill="#ffd166"/></g>`,
+band:`<g><circle cx="28" cy="20" r="12" fill="#ffcf9f"/><circle cx="72" cy="20" r="12" fill="#ffcf9f"/><path d="M13 35h30v35H13z" fill="#ff7198"/><path d="M57 35h30v35H57z" fill="#55c7f2"/><path d="M30 35v35M72 35v35" stroke="#ffd166" stroke-width="5"/><g transform="translate(72 45) rotate(-25)"><rect x="8" y="0" width="13" height="30" rx="5" fill="#ffd166" stroke="#fff" stroke-width="2"/><path d="M14 30v12" stroke="#fff" stroke-width="3"/><circle cx="14" cy="44" r="5" fill="#ff914d"/></g></g>`,
+drums:`<g><ellipse cx="50" cy="20" rx="30" ry="12" fill="#ffd166"/><path d="M20 20v42c0 16 60 16 60 0V20" fill="#ff7198" stroke="#fff" stroke-width="3"/><ellipse cx="50" cy="20" rx="30" ry="12" fill="#55c7f2" stroke="#fff" stroke-width="3"/><path d="M30 35h40M30 48h40" stroke="#fff" stroke-width="3"/></g>`,
+lights:`<g stroke="#fff" stroke-width="3"><path d="M10 15Q50 65 90 15" fill="none"/><circle cx="20" cy="29" r="9" fill="#ffd166"/><circle cx="40" cy="43" r="9" fill="#ff7198"/><circle cx="60" cy="43" r="9" fill="#55c7f2"/><circle cx="80" cy="29" r="9" fill="#a9e86f"/></g>`,
+masks:`<g><path d="M15 18Q50 0 85 18L78 60Q50 85 22 60z" fill="#a77aff" stroke="#fff" stroke-width="3"/><path d="M25 35l20 5-10 10zM75 35l-20 5 10 10z" fill="#242c66"/><path d="M40 62h20" stroke="#ffd166" stroke-width="4"/></g>`
+};
+function svgFor(key){return `<svg viewBox="0 0 100 85" aria-hidden="true">${art[key]||art.fireworks}</svg>`}
+function update(){ $('stars').textContent='Stars: '+stars; $('errors').textContent='Mistakes: '+errors; }
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active')}
+function tone(freq,dur,type='sine',vol=.08){if(!soundOn)return;try{audioCtx ||= new (window.AudioContext||window.webkitAudioContext)();let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(vol,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+dur);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+dur)}catch(e){}}
+function soundGood(){tone(660,.12);setTimeout(()=>tone(880,.2),110)}
+function soundBad(){tone(190,.24,'triangle',.06)}
+function startMusic(){if(!musicOn||musicTimer)return;let n=0;musicTimer=setInterval(()=>{if(musicOn)tone([392,494,587,494,440,523,659,523][n++%8],.22,'sine',.025)},330)}
+function stopMusic(){clearInterval(musicTimer);musicTimer=null}
+$('sound').onclick=()=>{soundOn=!soundOn;$('sound').textContent='SFX: '+(soundOn?'ON':'OFF');$('sound').setAttribute('aria-pressed',soundOn);if(soundOn)tone(520,.1)};$('music').onclick=()=>{musicOn=!musicOn;$('music').textContent='Music: '+(musicOn?'ON':'OFF');$('music').setAttribute('aria-pressed',musicOn);if(musicOn)startMusic();else stopMusic()};
+$('start').onclick=()=>{startMusic();step=0;gstep=0;unlocked=[];wrongV=[];wrongG=[];vQueue=shuffle([...Array(vocab.length).keys()]);gQueue=shuffle([...Array(gram.length).keys()]);show('vocab');renderVocab()};
+const shuffle=a=>a.slice().sort(()=>Math.random()-.5);
+function renderVocab(){let item=vocab[vQueue[step]];$('word').textContent=item[0];$('vprog').style.width=(step/vocab.length*100)+'%';$('vfeedback').textContent='';$('vfeedback').className='feedback';$('vnext').hidden=true;let opts=shuffle([item[0],...vocab.filter(x=>x[0]!==item[0]).slice(0,3).map(x=>x[0])]);$('choices').innerHTML='';opts.forEach(word=>{let b=document.createElement('button');b.className='choice';b.innerHTML=svgFor(word);b.setAttribute('aria-label','Festival picture option');b.title='Picture option';b.onclick=()=>{if(b.dataset.done)return;document.querySelectorAll('#choices button').forEach(x=>x.disabled=true);if(word===item[0]){stars++;unlocked.push(word);$('vfeedback').textContent='Brilliant! '+word+' added to the parade!';$('vfeedback').className='feedback good';soundGood()}else{errors++;wrongV.push(vQueue[step]);$('vfeedback').textContent='Not quite. Keep going — this picture will come back for another try!';$('vfeedback').className='feedback bad';soundBad()}update();$('vnext').hidden=false};$('choices').appendChild(b)})}
+$('vnext').onclick=()=>{step++;if(step>=vQueue.length&&wrongV.length){vQueue.push(...wrongV);wrongV=[]}if(step>=vQueue.length){gstep=0;show('grammar');renderGrammar()}else renderVocab()};
+const gram=[
+{q:'one drum',present:true,correct:'There was a drum.',opts:['There was a drum.','There wasn’t a drum.','There were some drums.','There weren’t any drums.'],key:'drums'},
+{q:'any fireworks',present:false,correct:'There weren’t any fireworks.',opts:['There were some fireworks.','There wasn’t a firework.','There weren’t any fireworks.','There was a firework.'],key:'fireworks'},
+{q:'some flags',present:true,correct:'There were some flags.',opts:['There wasn’t a flag.','There were some flags.','There weren’t any flags.','There was a flag.'],key:'flags'},
+{q:'one parade',present:false,correct:'There wasn’t a parade.',opts:['There was a parade.','There were some parades.','There weren’t any parades.','There wasn’t a parade.'],key:'parade'},
+{q:'some balloons',present:true,correct:'There were some balloons.',opts:['There were some balloons.','There wasn’t a balloon.','There weren’t any balloons.','There was a balloon.'],key:'balloons'},
+{q:'one mask',present:true,correct:'There was a mask.',opts:['There weren’t any masks.','There was a mask.','There were some masks.','There wasn’t a mask.'],key:'masks'}
+];
+function scene(key,present){return `<svg viewBox="0 0 600 170" role="img" aria-label="Festival illustration"><rect width="600" height="170" rx="15" fill="#313c83"/><path d="M0 125H600" stroke="#ffcf67" stroke-width="4"/><path d="M40 35Q300 105 560 35" stroke="#fff" stroke-width="3" fill="none"/>${Array.from({length:7},(_,i)=>`<circle cx="${65+i*78}" cy="${45+Math.sin(i)*25}" r="9" fill="${['#ffd166','#ff7198','#55c7f2'][i%3]}"/>`).join('')}${present?`<g transform="translate(245 35) scale(1.3)">${art[key]}</g>`:'<text x="300" y="95" font-size="24" font-weight="900" text-anchor="middle" fill="#fff">NOT THERE YESTERDAY</text>'}<text x="300" y="153" font-size="16" font-weight="900" text-anchor="middle" fill="#fff">YESTERDAY'S FESTIVAL</text></svg>`}
+function renderGrammar(){let x=gram[gQueue[gstep]];$('gprog').style.width=(gstep/gram.length*100)+'%';$('gscene').innerHTML=scene(x.key,x.present);$('gprompt').textContent='Complete: '+x.q;$('gfeedback').textContent='';$('gfeedback').className='feedback';$('gnext').hidden=true;$('gchoices').innerHTML='';shuffle(x.opts).forEach(opt=>{let b=document.createElement('button');b.textContent=opt;b.onclick=()=>{document.querySelectorAll('#gchoices button').forEach(z=>z.disabled=true);if(opt===x.correct){stars++;$('gfeedback').textContent='Exactly right! Great English!';$('gfeedback').className='feedback good';soundGood()}else{errors++;wrongG.push(gQueue[gstep]);$('gfeedback').textContent='Not quite. Keep going — this sentence will return for another try!';$('gfeedback').className='feedback bad';soundBad()}update();$('gnext').hidden=false};$('gchoices').appendChild(b)})}
+$('gnext').onclick=()=>{gstep++;if(gstep>=gQueue.length&&wrongG.length){gQueue.push(...wrongG);wrongG=[]}if(gstep>=gQueue.length)finish();else renderGrammar()};
+function finish(){show('final');$('finalscore').textContent='You earned '+stars+' stars!';$('parade').innerHTML=`<svg viewBox="0 0 600 230" role="img" aria-label="Completed colorful parade"><rect width="600" height="230" rx="16" fill="#20295f"/><path d="M0 170H600" stroke="#ffd166" stroke-width="5"/>${Array.from({length:10},(_,i)=>`<g class="spark" style="animation-delay:${i*.17}s" transform="translate(${30+i*59} ${20+(i%3)*20})"><path d="M0-16V16M-16 0H16M-11-11L11 11M11-11L-11 11" stroke="${['#ffd166','#ff7198','#55c7f2'][i%3]}" stroke-width="4" stroke-linecap="round"/></g>`).join('')}<path d="M25 50L85 95 145 50 205 95 265 50 325 95 385 50 445 95 505 50 565 95" fill="none" stroke="#fff" stroke-width="4"/>${['costumes','flags','balloons','drums','masks','lights'].map((k,i)=>`<g transform="translate(${20+i*92} 105) scale(.8)">${art[k]}</g>`).join('')}<text x="300" y="213" fill="#fff" font-size="22" text-anchor="middle" font-weight="900">THE GREAT FESTIVAL PARADE!</text></svg>`;tone(523,.2);setTimeout(()=>tone(659,.2),180);setTimeout(()=>tone(784,.4),360)}
+$('again').onclick=()=>{stars=0;errors=0;update();step=0;gstep=0;unlocked=[];show('welcome')};
+</script>
+<style>@keyframes sparkle{0%,100%{opacity:.45;transform:scale(.65)}50%{opacity:1;transform:scale(1.2)}}.spark{transform-box:fill-box;transform-origin:center;animation:sparkle .9s ease-in-out infinite}</style>
+</body></html>
